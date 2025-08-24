@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
 
 interface Product {
   id: string;
@@ -38,6 +37,7 @@ const NeemToothpastePage: React.FC = () => {
   };
 
   const handleAddToCart = () => {
+    // Add to cart functionality would go here
     console.log(`Added ${quantity} ${product.name} to cart`);
   };
 
@@ -53,10 +53,10 @@ const NeemToothpastePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Helmet>
+      <Head>
         <title>{product.name} - {product.brand}</title>
         <meta name="description" content={product.description} />
-      </Helmet>
+      </Head>
 
       {/* Header */}
       <header className="bg-white shadow-sm">
@@ -86,34 +86,47 @@ const NeemToothpastePage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Product Images */}
           <div className="md:w-1/2">
             <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-              <div className="h-80 w-full flex justify-center items-center">
-                <img
+              <div className="h-80 w-full relative">
+                <Image
                   src={selectedImage === 0 ? product.image : product.extraImages[selectedImage - 1]}
                   alt={product.name}
-                  className="h-full object-contain rounded-lg"
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded-lg"
                 />
               </div>
             </div>
             <div className="flex gap-4 overflow-x-auto py-2">
-              <div
-                className={`h-20 w-20 flex-shrink-0 cursor-pointer border-2 rounded-lg ${selectedImage === 0 ? 'border-blue-500' : 'border-gray-200'}`}
+              <div 
+                className={`h-20 w-20 relative cursor-pointer border-2 rounded-lg ${selectedImage === 0 ? 'border-blue-500' : 'border-gray-200'}`}
                 onClick={() => setSelectedImage(0)}
               >
-                <img src={product.image} alt={product.name} className="h-full w-full object-contain rounded-lg" />
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded-lg"
+                />
               </div>
               {product.extraImages.map((img, index) => (
-                <div
+                <div 
                   key={index}
-                  className={`h-20 w-20 flex-shrink-0 cursor-pointer border-2 rounded-lg ${selectedImage === index + 1 ? 'border-blue-500' : 'border-gray-200'}`}
+                  className={`h-20 w-20 relative cursor-pointer border-2 rounded-lg ${selectedImage === index + 1 ? 'border-blue-500' : 'border-gray-200'}`}
                   onClick={() => setSelectedImage(index + 1)}
                 >
-                  <img src={img} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain rounded-lg" />
+                  <Image
+                    src={img}
+                    alt={`${product.name} view ${index + 1}`}
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-lg"
+                  />
                 </div>
               ))}
             </div>
@@ -124,7 +137,7 @@ const NeemToothpastePage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h1 className="text-3xl font-bold text-gray-800 mb-2">{product.name}</h1>
               <p className="text-gray-600 mb-4">Brand: <span className="font-semibold text-blue-600">{product.brand}</span></p>
-
+              
               <div className="flex items-center mb-6">
                 <div className="flex text-yellow-400 mr-2">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -135,34 +148,44 @@ const NeemToothpastePage: React.FC = () => {
                 </div>
                 <span className="text-gray-600">(4.5)</span>
               </div>
-
+              
               <div className="mb-6">
                 <p className="text-2xl font-bold text-blue-600">₹{product.price}</p>
                 <p className="text-gray-500 text-sm">Inclusive of all taxes</p>
               </div>
-
+              
               <p className="text-gray-700 mb-6">{product.description}</p>
-
+              
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2">Product Details:</h3>
                 <ul className="list-disc pl-5 text-gray-700">
-                  <li>Material: {product.material}</li>
-                  <li>Size: {product.size}</li>
-                  <li>Category: {product.category}</li>
+                  <li className="mb-1">Material: {product.material}</li>
+                  <li className="mb-1">Size: {product.size}</li>
+                  <li className="mb-1">Category: {product.category}</li>
                 </ul>
               </div>
-
+              
               <div className="flex items-center mb-6">
                 <span className="mr-4 text-gray-700">Quantity:</span>
                 <div className="flex items-center border border-gray-300 rounded-md">
-                  <button className="px-3 py-1 text-gray-600 hover:text-blue-600" onClick={handleDecrement}>-</button>
+                  <button 
+                    className="px-3 py-1 text-gray-600 hover:text-blue-600"
+                    onClick={handleDecrement}
+                  >
+                    -
+                  </button>
                   <span className="px-3 py-1 border-l border-r border-gray-300">{quantity}</span>
-                  <button className="px-3 py-1 text-gray-600 hover:text-blue-600" onClick={handleIncrement}>+</button>
+                  <button 
+                    className="px-3 py-1 text-gray-600 hover:text-blue-600"
+                    onClick={handleIncrement}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-
+              
               <div className="flex space-x-4">
-                <button
+                <button 
                   className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md flex items-center justify-center"
                   onClick={handleAddToCart}
                 >
@@ -182,7 +205,6 @@ const NeemToothpastePage: React.FC = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-white mt-12 py-6 border-t border-gray-200">
         <div className="container mx-auto px-4 text-center text-gray-600">
           <p>© 2023 Oral Care Ayurveda. All rights reserved.</p>
