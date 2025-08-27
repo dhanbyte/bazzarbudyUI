@@ -1,5 +1,8 @@
+// src/Components/CartItem.tsx
 import React from 'react';
 import { toast } from "react-toastify";
+import { Box, Paper, Typography, IconButton, ButtonGroup, Button, Grid } from '@mui/material';
+import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi';
 
 type CartItemProps = {
   item: {
@@ -15,37 +18,7 @@ type CartItemProps = {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item, onQuantityChange, onRemove }) => {
-  return (
-    <div className="flex  sm:flex-row items-center justify-between gap-4 p-4 border rounded-lg shadow-sm bg-white">
-      <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-md" />
-
-      <div className="flex-1 text-left">
-        <h4 className="text-lg font-semibold text-gray-800">{item.name}</h4>
-        <p className="text-sm text-gray-500">
-          Sold by <span className="text-indigo-600 font-medium">{item.brand}</span>
-        </p>
-        <div className="flex items-center gap-2 mt-2">
-          <button
-            onClick={() => onQuantityChange(item.id, -1)}
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-          >
-            −
-          </button>
-          <span className="px-3">{item.quantity}</span>
-          <button
-            onClick={() => onQuantityChange(item.id, 1)}
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      <div className="text-right max-[321px]:-ml-2 ">
-        <p className="text-lg font-bold text-green-600 max-[321px]:mr-2">₹{item.price * item.quantity}</p>
-       <button
-  className="mt-2 text-red-500 hover:text-red-700 text-xl max-[321px]:mr-2 max-[321px]:mt-18"
-  onClick={() => {
+  const handleRemoveClick = () => {
     onRemove(item.id);
     toast.error(`${item.name} removed from cart`, {
       position: "top-right",
@@ -56,12 +29,44 @@ const CartItem: React.FC<CartItemProps> = ({ item, onQuantityChange, onRemove })
       draggable: true,
       theme: "colored",
     });
-  }}
->
-  ❌
-</button>
-      </div>
-    </div>
+  };
+
+  return (
+    <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Grid container alignItems="center" spacing={2}>
+        {/* Image */}
+        <Grid item xs={12} sm={2}>
+          <Box
+            component="img"
+            src={item.image}
+            alt={item.name}
+            sx={{ width: '100%', height: 'auto', aspectRatio: '1 / 1', objectFit: 'cover', borderRadius: 1 }}
+          />
+        </Grid>
+        {/* Name and Brand */}
+        <Grid item xs={12} sm={4}>
+          <Typography variant="h6" component="div">{item.name}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Sold by <Typography component="span" color="primary">{item.brand}</Typography>
+          </Typography>
+        </Grid>
+        {/* Quantity Control */}
+        <Grid item xs={6} sm={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <ButtonGroup size="small" variant="outlined">
+            <Button onClick={() => onQuantityChange(item.id, -1)}><FiMinus /></Button>
+            <Button disabled sx={{ '&.Mui-disabled': { color: 'text.primary' } }}>{item.quantity}</Button>
+            <Button onClick={() => onQuantityChange(item.id, 1)}><FiPlus /></Button>
+          </ButtonGroup>
+        </Grid>
+        {/* Price and Remove */}
+        <Grid item xs={6} sm={3} sx={{ textAlign: 'right' }}>
+          <Typography variant="h6" fontWeight="bold">₹{(item.price * item.quantity).toFixed(2)}</Typography>
+          <IconButton color="error" onClick={handleRemoveClick} sx={{ mt: 1 }}>
+            <FiTrash2 />
+          </IconButton>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 
