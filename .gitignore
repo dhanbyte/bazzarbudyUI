@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -43,3 +44,10 @@ next-env.d.ts
 # firebase
 firebase-debug.log
 firestore-debug.log
+=======
+node_modules
+dist
+.env
+.vscode
+.history
+>>>>>>> a52e61c6daf1dd14d101128805613104207d3505
