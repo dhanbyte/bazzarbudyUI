@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  @apply mx-auto max-w-7xl px-3 sm:px-4;
+}
+
+/* Scrollbar subtle */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 8px;
+}
+
+/* Card hover */
+.card {
+  @apply rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md;
+}
+
+/* Sticky bottom bar (mobile CTAs) */
+.sticky-cta {
+  @apply fixed bottom-14 inset-x-0 z-40 border-t bg-white/95 backdrop-blur-sm md:hidden;
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+.blinking-dot {
+  animation: blink 1.5s infinite step-end;
+}
